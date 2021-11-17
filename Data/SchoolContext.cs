@@ -1,5 +1,9 @@
-﻿using ConsoleApp1.Models;
+﻿using System;
+using System.Runtime.CompilerServices;
+using ConsoleApp1.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ConsoleApp1.Data
 {
@@ -13,7 +17,24 @@ namespace ConsoleApp1.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Student>().ToTable("Student");
+            modelBuilder.Entity<Student>().Property(m => m.ID).HasDefaultValueSql("NEWSEQUENTIALID()");
+        }
+
+        public override int SaveChanges()
+        {
+            foreach (var entityEntry in ChangeTracker.Entries())
+            {
+                if (entityEntry.State == EntityState.Modified)
+                {
+                    switch (entityEntry.Entity)
+                    {
+                        case Student student:
+                            student.UpdatedDate = DateTime.Now;
+                            break;
+                    }
+                }
+            }
+            return base.SaveChanges();
         }
     }
 }
