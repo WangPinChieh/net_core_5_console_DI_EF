@@ -14,10 +14,14 @@ namespace ConsoleApp1.Data
         }
 
         public DbSet<Student> Students { get; set; }
+        public DbSet<StudentFirstChild> StudentFirstChildren { get; set; }
+        public DbSet<StudentSecondChild> StudentSecondChildren { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().Property(m => m.ID).HasDefaultValueSql("NEWSEQUENTIALID()");
+            modelBuilder.Entity<StudentFirstChild>().Property(m => m.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
+            modelBuilder.Entity<StudentSecondChild>().Property(m => m.Id).HasDefaultValueSql("NEWSEQUENTIALID()");
         }
 
         public override int SaveChanges()

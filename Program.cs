@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConsoleApp1.Data;
 using ConsoleApp1.Models;
@@ -30,17 +31,52 @@ while (true)
             schoolContext.SaveChanges();
             break;
         case '2':
-            schoolContext.Students.Add(new Student
+            var entity = new Student
             {
                 LastName = "Wang",
-                FirstMidName = "Jay"
-            });
+                FirstMidName = "Jay",
+                Children = new List<StudentFirstChild>
+                {
+                    new()
+                    {
+                        Children = new List<StudentSecondChild>
+                        {
+                            new()
+                        }
+                    }
+                }
+            };
+            schoolContext.Students.Add(entity);
             schoolContext.SaveChanges();
+            Console.WriteLine($"StudentId: {entity.ID}");
             break;
         case '3':
-            var student = schoolContext.Students.FirstOrDefault(m => m.LastName == "Wang");
-            Console.Write("Name: ");
-            student.FirstMidName = Console.ReadLine();
+            var student = await schoolContext.Students.FirstOrDefaultAsync(m => m.LastName == "Wang");
+            schoolContext.Students.Remove(student);
+            schoolContext.Students.Add(new Student
+            {
+                LastName = "Shao",
+                FirstMidName = "Yvonne",
+                Children = new List<StudentFirstChild>
+                {
+                    new()
+                    {
+                        Children = new List<StudentSecondChild>
+                        {
+                            new()
+                        }
+                    }
+                }
+            });
+            // Console.Write("Name: ");
+            // student.FirstMidName = Console.ReadLine();
+            schoolContext.SaveChanges();
+            break;
+        case '4':
+
+            var student1 = await schoolContext.Students.FirstOrDefaultAsync(m => m.LastName == "Wang");
+            student1.Children.Add(new StudentFirstChild()
+            );
             schoolContext.SaveChanges();
             break;
     }

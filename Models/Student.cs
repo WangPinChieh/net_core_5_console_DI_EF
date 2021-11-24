@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConsoleApp1.Models
 {
@@ -9,5 +10,6 @@ namespace ConsoleApp1.Models
         public string FirstMidName { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
+        public List<StudentFirstChild> Children { get; set; } = new List<StudentFirstChild>();
     }
 }
