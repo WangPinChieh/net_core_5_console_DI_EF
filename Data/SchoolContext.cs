@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using ConsoleApp1.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ConsoleApp1.Data
 {
@@ -18,8 +15,8 @@ namespace ConsoleApp1.Data
         public DbSet<StudentSecondChild> StudentSecondChildren { get; set; }
         public DbSet<SupportedItem> SupportedItems { get; set; }
         public DbSet<TemplateItem> TemplateItems { get; set; }
-        public DbSet<FeatureMapping> FeatureMappings { get; set; }
         public DbSet<Platform> Platforms { get; set; }
+        public DbSet<FeatureMapping> FeatureMappings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,14 +29,15 @@ namespace ConsoleApp1.Data
             modelBuilder.Entity<SupportedItem>().ToTable("tblSupportedItem");
             modelBuilder.Entity<Platform>().ToTable("tblPlatform");
             modelBuilder.Entity<FeatureMapping>().HasKey(m => new {m.FeatureId, m.TemplateItemId});
-            modelBuilder.Entity<FeatureMapping>()
-                .HasOne(m => m.FeatureItem)
-                .WithMany(m => m.FeatureMappings)
-                .HasForeignKey(m => m.TemplateItemId);
-            modelBuilder.Entity<FeatureMapping>()
-                .HasOne(m => m.TemplateItem)
-                .WithMany(m => m.FeatureMappings)
-                .HasForeignKey(m => m.FeatureId);
+            // modelBuilder.Entity<FeatureMapping>()
+            //     .HasOne(m => m.FeatureItem)
+            //     .WithMany(m => m.FeatureMappings)
+            //     .HasForeignKey(m => m.FeatureId);
+            // modelBuilder.Entity<FeatureMapping>()
+            //     .HasOne(m => m.TemplateItem)
+            //     .WithMany(m => m.FeatureMappings)
+            //     .HasForeignKey(m => m.TemplateItemId);
+          
         }
 
         public override int SaveChanges()

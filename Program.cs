@@ -136,5 +136,46 @@ while (true)
 
 
             break;
+        case '8':
+            var item = new TemplateItem
+            {
+                Name = "AC01"
+            };
+            schoolContext.TemplateItems.Add(item);
+            
+            
+            var platform1 = new Platform
+            {
+                Name = "NB",
+            };
+            schoolContext.Platforms.Add(platform1);
+            var supportedItem1 = new SupportedItem
+            {
+                Name = "HDD",
+            };
+            schoolContext.SupportedItems.Add(supportedItem1);
+            schoolContext.SaveChanges();
+
+            schoolContext.FeatureMappings.Add(new FeatureMapping
+            {
+                FeatureItem = platform1,
+                TemplateItem = item
+            });
+            schoolContext.FeatureMappings.Add(new FeatureMapping
+            {
+                FeatureItem = supportedItem1,
+                TemplateItem = item
+            });
+            schoolContext.SaveChanges();
+                
+            
+            
+            
+            break;
+        case '9':
+            var platforms = schoolContext.Platforms.Where(m => m.Name == "NB")
+                .Include("FeatureMappings.TemplateItem") ;
+            var supportedItems = schoolContext.SupportedItems.Where(m => m.Name == "HDD");
+            break;
     }
 }

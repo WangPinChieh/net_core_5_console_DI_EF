@@ -7,7 +7,7 @@ namespace ConsoleApp1.Models
     public class FeatureMapping
     {
         public Guid FeatureId { get; set; }
-        public ICommon FeatureItem { get; set; }
+        public Feature FeatureItem { get; set; }
         public Guid TemplateItemId { get; set; }
         public TemplateItem TemplateItem { get; set; }
     }

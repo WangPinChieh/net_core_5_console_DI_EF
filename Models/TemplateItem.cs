@@ -9,6 +9,6 @@ namespace ConsoleApp1.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<FeatureMapping> FeatureMappings { get; set; }
+        public List<FeatureMapping> FeatureMappings  { get; set; }
     }
 }
