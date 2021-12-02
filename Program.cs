@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using ConsoleApp1;
 using ConsoleApp1.Data;
 using ConsoleApp1.Models;
 using Microsoft.EntityFrameworkCore;
@@ -78,6 +81,60 @@ while (true)
             student1.Children.Add(new StudentFirstChild()
             );
             schoolContext.SaveChanges();
+            break;
+        case '5':
+            var myTasks = new MyTasks();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var task1 = myTasks.Calculate(3000);
+            var task2 = myTasks.Calculate(2000);
+            var result1 = await task1;
+            var result2 = await task2;
+            stopwatch.Stop();
+            Console.WriteLine(result1 + " ; " + result2 + " ; " + stopwatch.ElapsedMilliseconds);
+            break;
+        case '6':
+            var myTasksa = new MyTasks();
+            var stopwatch2 = new Stopwatch();
+            stopwatch2.Start();
+
+            var taskA = myTasksa.Calculate(3000);
+            var taskB = myTasksa.Calculate(2000);
+            var results = await Task.WhenAll(taskA, taskB);
+            stopwatch2.Stop();
+            Console.WriteLine(results[0] + " ; " + results[1] + " ; " + stopwatch2.ElapsedMilliseconds);
+            break;
+        case '7':
+            var supportedItem = new SupportedItem
+            {
+                Name = "HDD",
+            };
+            var templateItem = new TemplateItem
+            {
+                Name = "EM27"
+            };
+            var platform = new Platform
+            {
+                Name = "NB"
+            };
+
+
+            schoolContext.Platforms.Add(platform);
+            schoolContext.SupportedItems.Add(supportedItem);
+            schoolContext.TemplateItems.Add(templateItem);
+            schoolContext.FeatureMappings.Add(new FeatureMapping
+            {
+                FeatureItem = supportedItem,
+                TemplateItem = templateItem,
+            });
+            schoolContext.FeatureMappings.Add(new FeatureMapping
+            {
+                FeatureItem = platform,
+                TemplateItem = templateItem,
+            });
+            schoolContext.SaveChanges();
+
+
             break;
     }
 }
